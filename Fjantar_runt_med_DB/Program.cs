@@ -6,7 +6,7 @@
         {
             Console.WriteLine("Welcome to the database control.\n");
 
-            Menu.MenuChoices();
+            UI.Menu.MenuChoices();
         }
 
         internal static void ApplicationShutdown()
