@@ -30,10 +30,11 @@ Fjantar_runt
 │   ├── DatabaseType.cs               # Enum for database types (MySQL, SQLite, MongoDB, etc.)
 │   ├── IDatabaseConnection.cs        # Interface for connection pooling, async support
 │   ├── IDatabaseManager.cs           # Interface for DatabaseManager
-│   └── ICrudRepository<T>.cs         # Generic CRUD interface for repository pattern
+│   └── ICrudRepository.cs            # Generic CRUD interface for repository pattern
 │
 ├── UI
-│   └── Menu.cs                       # Manages user interactions, selection of database type
+│   ├── Menu.cs                       # Manages user interactions, selection of database type
+│   └── BaseRepository.cs             # Handle connection to repositories to avoid duplicated code
 │
 ├── DatabaseConnections
 │   ├── DatabaseManager.cs            # Main manager for handling database connections
@@ -44,8 +45,11 @@ Fjantar_runt
 │
 ├── Repositories
 │   ├── MySqlRepository.cs            # Repository for MySQL implementing ICrudRepository
-│   ├── SQLiteRepository.cs           # Repository for SQLite implementing ICrudRepository
+│   ├── SQLiteBookRepository.cs       # Repository for SQLite implementing ICrudRepository - Books
 │   └── MongoDbRepository.cs          # Repository for MongoDB implementing ICrudRepository
+│
+├── SQLiteEntities
+│   └── Books.cs                      # Handles SQLite Books-table/class
 │
 ├── CRUDOperations                    # Folder for dynamic CRUD commands
 │   ├── Create.cs                     # Generalized create commands for each DB type
@@ -64,6 +68,9 @@ Fjantar_runt
 - Created the Menu-method call and the ApplicationShutdown method in Program.Main
 - Created UI.Menu.cs
 - Created DatabaseConnections.DatabaseManager.cs
-- 
+- Created Core.ICrudRepository.cs  
+- Created SQLiteBookRepository.cs
+- Created SQLiteEntities.Books.cs
+- Created UI.BaseRepository.cs
 
 ## Moving on

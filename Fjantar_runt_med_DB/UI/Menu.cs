@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace Fjantar_runt_med_DB.UI
 {
+    using Fjantar_runt_med_DB.Core;
     using Fjantar_runt_med_DB.DatabaseConnections;
+    using Fjantar_runt_med_DB.Repositories;
+    using Fjantar_runt_med_DB.SQLiteEntities;
 
     internal class Menu
     {
         internal static void MenuChoices()
         {
+            DatabaseManager? dbManager = null;
             DatabaseType dbType = default;
             bool validChoice = false;
 
@@ -25,7 +29,7 @@ namespace Fjantar_runt_med_DB.UI
                 Console.WriteLine("5. Exit\n");
 
                 Console.WriteLine("Enter your choice:");
-                string? menuInput = Console.ReadLine();
+                string menuInput = Console.ReadLine() ?? string.Empty;
 
                 switch (menuInput)
                 {
@@ -58,9 +62,61 @@ namespace Fjantar_runt_med_DB.UI
                 }
             }
 
-            // Now that we have a valid dbType, we can safely create the DatabaseManager
-            var dbManager = new DatabaseManager(dbType);
-            Console.WriteLine($"Connected to {dbType}.");
+            dbManager = new DatabaseManager(dbType);
+            if (dbType == DatabaseType.SQLite)
+            {
+                var repository = new SQLiteBookRepository(dbManager.ConnectionString);
+                ShowCrudMenu(repository);
+            }
+            else
+            {
+                Console.WriteLine($"Connected to {dbType}.");
+                // Handle connections for other databases if required
+            }
+        }
+
+        internal static void ShowCrudMenu(ICrudRepository<Books> repository)
+        {
+            bool exitCRUDMenu = false;
+
+            while (!exitCRUDMenu)
+            {
+                Console.WriteLine("Choose an operation:");
+                Console.WriteLine("1. Create");
+                Console.WriteLine("2. Read");
+                Console.WriteLine("3. Update");
+                Console.WriteLine("4. Delete");
+                Console.WriteLine("5. Back to Main Menu\n");
+
+                string choice = Console.ReadLine() ?? string.Empty;
+
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("Creating...");
+                        // Example: await repository.CreateAsync(new Books { Title = "Sample", Author = "Author" });
+                        break;
+                    case "2":
+                        Console.WriteLine("Reading...");
+                        // Example: var result = await repository.ReadAsync(1);
+                        break;
+                    case "3":
+                        Console.WriteLine("Updating...");
+                        // Example: await repository.UpdateAsync(new Books { Id = 1, Title = "Updated Title", Author = "Updated Author" });
+                        break;
+                    case "4":
+                        Console.WriteLine("Deleting...");
+                        // Example: await repository.DeleteAsync(1);
+                        break;
+                    case "5":
+                        exitCRUDMenu = true; // Exit the loop to return to the main menu
+                        Console.WriteLine("Returning to the main menu...");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice, please try again.");
+                        break;
+                }
+            }
         }
     }
 }
