@@ -10,8 +10,9 @@ namespace Fjantar_runt_med_DB.Core
     public interface ICrudRepository<T>
     {
         Task CreateAsync(T entity);
-        Task<T?> ReadAsync(int id);
+        // Task<T?> ReadAsync(int id);
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id);
+        Task<List<T>> ReadAllAsync();
     }
 }

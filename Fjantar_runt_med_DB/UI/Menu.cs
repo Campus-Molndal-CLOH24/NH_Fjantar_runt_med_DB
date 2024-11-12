@@ -13,7 +13,7 @@ namespace Fjantar_runt_med_DB.UI
 
     internal class Menu
     {
-        internal static void MenuChoices()
+        internal static async Task MenuChoices()
         {
             DatabaseManager? dbManager = null;
             DatabaseType dbType = default;
@@ -66,7 +66,7 @@ namespace Fjantar_runt_med_DB.UI
             if (dbType == DatabaseType.SQLite)
             {
                 var repository = new SQLiteBookRepository(dbManager.ConnectionString);
-                ShowCrudMenu(repository);
+                await ShowCrudMenu(repository); // Await the CRUD menu to return to the main menu
             }
             else
             {
@@ -75,7 +75,7 @@ namespace Fjantar_runt_med_DB.UI
             }
         }
 
-        internal static void ShowCrudMenu(ICrudRepository<Books> repository)
+        internal static async Task ShowCrudMenu(ICrudRepository<Books> repository)
         {
             bool exitCRUDMenu = false;
 
@@ -97,8 +97,20 @@ namespace Fjantar_runt_med_DB.UI
                         // Example: await repository.CreateAsync(new Books { Title = "Sample", Author = "Author" });
                         break;
                     case "2":
-                        Console.WriteLine("Reading...");
-                        // Example: var result = await repository.ReadAsync(1);
+                        Console.WriteLine("Reading all books...");
+                        var books = await repository.ReadAllAsync();
+
+                        if (books.Count > 0)
+                        {
+                            foreach (var book in books)
+                            {
+                                Console.WriteLine($"Id: {book.Id}, Title: {book.Title}, Author: {book.Author}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No books found.");
+                        }
                         break;
                     case "3":
                         Console.WriteLine("Updating...");
@@ -111,6 +123,7 @@ namespace Fjantar_runt_med_DB.UI
                     case "5":
                         exitCRUDMenu = true; // Exit the loop to return to the main menu
                         Console.WriteLine("Returning to the main menu...");
+                        await MenuChoices();
                         break;
                     default:
                         Console.WriteLine("Invalid choice, please try again.");

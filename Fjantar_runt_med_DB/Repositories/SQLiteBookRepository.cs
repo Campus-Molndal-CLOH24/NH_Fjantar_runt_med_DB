@@ -30,26 +30,27 @@ namespace Fjantar_runt_med_DB.Repositories
             await command.ExecuteNonQueryAsync();
         }
 
-        public async Task<Books?> ReadAsync(int id)
-        {
-            using var connection = await GetOpenConnectionAsync();
-            string sql = "SELECT Id, Title, Author FROM Books WHERE Id = @Id;";
-            using var command = new SQLiteCommand(sql, connection);
-            command.Parameters.AddWithValue("@Id", id);
+        //public async Task<List<Books>> ReadAsync()
+        //{
+        //    using var connection = await GetOpenConnectionAsync();
+        //    string sql = "SELECT Id, Title, Author FROM Books;";
+        //    using var command = new SQLiteCommand(sql, connection);
 
-            using var reader = await command.ExecuteReaderAsync();
-            if (await reader.ReadAsync())
-            {
-                return new Books
-                {
-                    Id = reader.GetInt32(0),
-                    Title = reader.GetString(1),
-                    Author = reader.GetString(2)
-                };
-            }
+        //    var books = new List<Books>();
 
-            return null; // Return null if no record is found
-        }
+        //    using var reader = await command.ExecuteReaderAsync();
+        //    while (await reader.ReadAsync())
+        //    {
+        //        books.Add(new Books
+        //        {
+        //            Id = reader.GetInt32(0),
+        //            Title = reader.GetString(1),
+        //            Author = reader.GetString(2)
+        //        });
+        //    }
+
+        //    return books; // Return the list of books
+        //}
 
         public async Task UpdateAsync(Books entity)
         {
@@ -71,6 +72,28 @@ namespace Fjantar_runt_med_DB.Repositories
             command.Parameters.AddWithValue("@Id", id);
 
             await command.ExecuteNonQueryAsync();
+        }
+
+        public async Task<List<Books>> ReadAllAsync()
+        {
+            using var connection = await GetOpenConnectionAsync();
+            string sql = "SELECT Id, Title, Author FROM Books;";
+            using var command = new SQLiteCommand(sql, connection);
+
+            var books = new List<Books>();
+
+            using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                books.Add(new Books
+                {
+                    Id = reader.GetInt32(0),
+                    Title = reader.GetString(1),
+                    Author = reader.GetString(2)
+                });
+            }
+
+            return books; // Return the list of books
         }
     }
 }

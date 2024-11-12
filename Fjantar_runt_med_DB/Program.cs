@@ -6,7 +6,7 @@
         {
             Console.WriteLine("Welcome to the database control.\n");
 
-            UI.Menu.MenuChoices();
+            UI.Menu.MenuChoices().GetAwaiter().GetResult(); // Call async method synchronously
         }
 
         internal static void ApplicationShutdown()
