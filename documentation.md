@@ -13,18 +13,19 @@ LICENCE has the MIT-licence agreement for this project.
 
 ## Goals with the project
 
-1. Have a dynamic switch menu that can chose between different database connections through a menu
+1. Have a dynamic switch menu that can chose between different database connections
 2. Use Repository Pattern at least once
 3. Utilize a Connection pool
-4. Implement Async commands where it is logical to do should
+4. Implement Async commands where it is logical to do so
 5. Create dynamic CRUD-systems so we can use the same code for different databases / syntaxes
 6. Dependency Injection
-7. Write this as a console program in C#
+7. Implement logging (perhaps both errors in one file and db-activity in another)  
+8. Write this as a console program in C#
 
 ## Conceptual layout before the creation
 
 ```
-Fjantar_runt
+Fjantar_runt_med_DB
 │
 ├── Core
 │   ├── DatabaseType.cs               # Enum for database types (MySQL, SQLite, MongoDB, etc.)
