@@ -14,18 +14,19 @@ LICENCE has the MIT-licence agreement for this project.
 ## Conceptual layout before the creation
 
 ```
-Fjantar_runt_med_DB
+Fjantar_runt
 │
 ├── Core
 │   ├── DatabaseType.cs               # Enum for database types (MySQL, SQLite, MongoDB, etc.)
 │   ├── IDatabaseConnection.cs        # Interface for connection pooling, async support
-│   ├── IDatabaseManager.cs           # Core interface for DatabaseManager operations
+│   ├── IDatabaseManager.cs           # Interface for DatabaseManager
 │   └── ICrudRepository<T>.cs         # Generic CRUD interface for repository pattern
 │
 ├── UI
 │   └── Menu.cs                       # Manages user interactions, selection of database type
 │
 ├── DatabaseConnections
+│   ├── DatabaseManager.cs            # Main manager for handling database connections
 │   ├── MySqlConnectionPool.cs        # Implements connection pool, async commands for MySQL
 │   ├── SQLiteConnectionPool.cs       # Implements connection pool, async commands for SQLite
 │   ├── MongoDBConnectionPool.cs      # Implements MongoDB async support
