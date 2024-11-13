@@ -24,24 +24,14 @@ namespace Fjantar_runt_med_DB.DatabaseConnections
         public DatabaseManager(DatabaseType dbType)
         {
             // Set the connection string based on the selected database type
-            switch (dbType)
+            _connectionString = dbType switch
             {
-                case DatabaseType.MySQL:
-                    _connectionString = "server=localhost;user=youdlovetogetthatright;password=1234hahaha";
-                    break;
-                case DatabaseType.SQLite:
-                    string databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\library.db");
-                    _connectionString = $"Data Source={databasePath}";
-                    break;
-                case DatabaseType.MongoDB:
-                    _connectionString = "mongodb://localhost:27017";
-                    break;
-                case DatabaseType.API:
-                    _connectionString = "https://api.thiscouldbeanexamplemaybe.com";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(dbType), dbType, null);
-            }
+                DatabaseType.MySQL => "server=localhost;user=youdlovetogetthatright;password=1234hahaha",
+                DatabaseType.SQLite => $"Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\library.db")}",
+                DatabaseType.MongoDB => "mongodb://localhost:27017",
+                DatabaseType.API => "https://api.thiscouldbeanexamplemaybe.com",
+                _ => throw new ArgumentOutOfRangeException(nameof(dbType), dbType, null)
+            };
         }
     }
 }

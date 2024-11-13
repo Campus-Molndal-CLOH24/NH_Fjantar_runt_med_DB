@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fjantar_runt_med_DB.UI
+namespace Fjantar_runt_med_DB.Repositories
 {
     using System.Data.SQLite;
 

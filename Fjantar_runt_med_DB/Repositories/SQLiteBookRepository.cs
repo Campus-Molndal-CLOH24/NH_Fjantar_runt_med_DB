@@ -8,14 +8,13 @@ namespace Fjantar_runt_med_DB.Repositories
 {
     using Fjantar_runt_med_DB.Core;
     using Fjantar_runt_med_DB.SQLiteEntities;
-    using Fjantar_runt_med_DB.UI;
     using System.Data.SQLite;
 
 
     internal class SQLiteBookRepository : BaseRepository, ICrudRepository<Books>
     {
         // Constructor that takes a connection string from the UI layer and passes it to the base class
-        public SQLiteBookRepository(string connectionString) : base(connectionString) { }
+        public SQLiteBookRepository(string connectionString) : base(connectionString) {}
 
         public async Task CreateAsync(Books entity)
         {
@@ -30,27 +29,6 @@ namespace Fjantar_runt_med_DB.Repositories
             await command.ExecuteNonQueryAsync();
         }
 
-        //public async Task<List<Books>> ReadAsync()
-        //{
-        //    using var connection = await GetOpenConnectionAsync();
-        //    string sql = "SELECT Id, Title, Author FROM Books;";
-        //    using var command = new SQLiteCommand(sql, connection);
-
-        //    var books = new List<Books>();
-
-        //    using var reader = await command.ExecuteReaderAsync();
-        //    while (await reader.ReadAsync())
-        //    {
-        //        books.Add(new Books
-        //        {
-        //            Id = reader.GetInt32(0),
-        //            Title = reader.GetString(1),
-        //            Author = reader.GetString(2)
-        //        });
-        //    }
-
-        //    return books; // Return the list of books
-        //}
 
         public async Task UpdateAsync(Books entity)
         {
@@ -73,7 +51,6 @@ namespace Fjantar_runt_med_DB.Repositories
 
             await command.ExecuteNonQueryAsync();
         }
-
         public async Task<List<Books>> ReadAllAsync()
         {
             using var connection = await GetOpenConnectionAsync();

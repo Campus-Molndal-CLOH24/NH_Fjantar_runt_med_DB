@@ -13,9 +13,8 @@ namespace Fjantar_runt_med_DB.UI
 
     internal class Menu
     {
-        internal static async Task MenuChoices()
+        internal static void MenuChoices()
         {
-            DatabaseManager? dbManager = null;
             DatabaseType dbType = default;
             bool validChoice = false;
 
@@ -62,17 +61,8 @@ namespace Fjantar_runt_med_DB.UI
                 }
             }
 
-            dbManager = new DatabaseManager(dbType);
-            if (dbType == DatabaseType.SQLite)
-            {
-                var repository = new SQLiteBookRepository(dbManager.ConnectionString);
-                await ShowCrudMenu(repository); // Await the CRUD menu to return to the main menu
-            }
-            else
-            {
-                Console.WriteLine($"Connected to {dbType}.");
-                // Handle connections for other databases if required
-            }
+            // Call ConnectionHandling with the chosen database type
+            ConnectionHandling(dbType).GetAwaiter().GetResult(); // Call async method synchronously
         }
 
         internal static async Task ShowCrudMenu(ICrudRepository<Books> repository)
@@ -123,12 +113,44 @@ namespace Fjantar_runt_med_DB.UI
                     case "5":
                         exitCRUDMenu = true; // Exit the loop to return to the main menu
                         Console.WriteLine("Returning to the main menu...");
-                        await MenuChoices();
+                        MenuChoices();
                         break;
                     default:
                         Console.WriteLine("Invalid choice, please try again.");
                         break;
                 }
+            }
+        }
+
+        internal static async Task ConnectionHandling(DatabaseType dbType)
+        {
+            var dbManager = new DatabaseManager(dbType);
+
+            switch (dbType)
+            {
+                case DatabaseType.SQLite:
+                    var sqliteRepository = new SQLiteBookRepository(dbManager.ConnectionString);
+                    await ShowCrudMenu(sqliteRepository); // Show CRUD menu for SQLite
+                    break;
+
+                case DatabaseType.MySQL:
+                    Console.WriteLine($"Connected to {dbType}.");
+                    // Future: Initialize MySQL repository and call CRUD menu if needed
+                    break;
+
+                case DatabaseType.MongoDB:
+                    Console.WriteLine($"Connected to {dbType}.");
+                    // Future: Initialize MongoDB repository and call CRUD menu if needed
+                    break;
+
+                case DatabaseType.API:
+                    Console.WriteLine($"Connected to {dbType}.");
+                    // Future: Initialize API handler and call appropriate methods if needed
+                    break;
+
+                default:
+                    Console.WriteLine("Unsupported database type.");
+                    break;
             }
         }
     }

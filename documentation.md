@@ -73,5 +73,7 @@ Fjantar_runt_med_DB
 - Created SQLiteBookRepository.cs
 - Created SQLiteEntities.Books.cs
 - Created UI.BaseRepository.cs
+- Major revision on the connection mechanics, so big updates to Menu.cs, DatabaseManager.cs, BaseRepository.cs and SQLiteBookRepository.cs. The DatabaseManager constructor now has a lambda switch menu.
+- 
 
 ## Moving on
