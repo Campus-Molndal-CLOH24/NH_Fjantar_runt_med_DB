@@ -18,20 +18,28 @@ namespace Fjantar_runt_med_DB.Repositories
 
         public async Task CreateAsync(Books entity)
         {
-            using var connection = await GetOpenConnectionAsync();
-            // SQL query to insert a new record into the Books table using parameterized queries
-            string sql = "INSERT INTO Books (Title, Author) VALUES (@Title, @Author);";
-            using var command = new SQLiteCommand(sql, connection);
-            command.Parameters.AddWithValue("@Title", entity.Title);
-            command.Parameters.AddWithValue("@Author", entity.Author);
+            try
+            {
+                using var connection = await GetOpenConnectionAsync();
+                string sql = "INSERT INTO Books (Title, Author) VALUES (@Title, @Author);";
+                using var command = new SQLiteCommand(sql, connection);
+                command.Parameters.AddWithValue("@Title", entity.Title);
+                command.Parameters.AddWithValue("@Author", entity.Author);
 
-            // Execute the query asynchronously
-            await command.ExecuteNonQueryAsync();
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating book: {ex.Message}");
+                // Optionally rethrow or handle the error as needed
+            }
         }
 
 
         public async Task UpdateAsync(Books entity)
         {
+            try
+            {
             using var connection = await GetOpenConnectionAsync();
             string sql = "UPDATE Books SET Title = @Title, Author = @Author WHERE Id = @Id;";
             using var command = new SQLiteCommand(sql, connection);
@@ -40,19 +48,35 @@ namespace Fjantar_runt_med_DB.Repositories
             command.Parameters.AddWithValue("@Id", entity.Id);
 
             await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating book: {ex.Message}");
+                // Optionally rethrow or handle the error as needed
+            }
         }
 
         public async Task DeleteAsync(int id)
         {
+            try
+            {
             using var connection = await GetOpenConnectionAsync();
             string sql = "DELETE FROM Books WHERE Id = @Id;";
             using var command = new SQLiteCommand(sql, connection);
             command.Parameters.AddWithValue("@Id", id);
 
             await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating book: {ex.Message}");
+                // Optionally rethrow or handle the error as needed
+            }
         }
         public async Task<List<Books>> ReadAllAsync()
         {
+            try
+            {
             using var connection = await GetOpenConnectionAsync();
             string sql = "SELECT Id, Title, Author FROM Books;";
             using var command = new SQLiteCommand(sql, connection);
@@ -71,6 +95,14 @@ namespace Fjantar_runt_med_DB.Repositories
             }
 
             return books; // Return the list of books
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating book: {ex.Message}");
+                return new List<Books>(); // Return an empty list on error
+                // We chose to return an empty list, but you could also rethrow or handle the error as needed
+                // Empty list can be preferable in case we want to avoid null, and this is a db-table that can be empty
+            }
         }
     }
 }

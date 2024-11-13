@@ -22,7 +22,7 @@ LICENCE has the MIT-licence agreement for this project.
 7. Implement logging (perhaps both errors in one file and db-activity in another)  
 8. Write this as a console program in C#
 
-## Conceptual layout before the creation
+## Conceptual layout
 
 ```
 Fjantar_runt_med_DB
@@ -34,8 +34,7 @@ Fjantar_runt_med_DB
 │   └── ICrudRepository.cs            # Generic CRUD interface for repository pattern
 │
 ├── UI
-│   ├── Menu.cs                       # Manages user interactions, selection of database type
-│   └── BaseRepository.cs             # Handle connection to repositories to avoid duplicated code
+│   └── Menu.cs                       # Manages user interactions, selection of database type
 │
 ├── DatabaseConnections
 │   ├── DatabaseManager.cs            # Main manager for handling database connections
@@ -47,7 +46,8 @@ Fjantar_runt_med_DB
 ├── Repositories
 │   ├── MySqlRepository.cs            # Repository for MySQL implementing ICrudRepository
 │   ├── SQLiteBookRepository.cs       # Repository for SQLite implementing ICrudRepository - Books
-│   └── MongoDbRepository.cs          # Repository for MongoDB implementing ICrudRepository
+│   ├── MongoDbRepository.cs          # Repository for MongoDB implementing ICrudRepository
+│   └── BaseRepository.cs             # Handle connection to repositories to avoid duplicated code
 │
 ├── SQLiteEntities
 │   └── Books.cs                      # Handles SQLite Books-table/class
@@ -74,6 +74,6 @@ Fjantar_runt_med_DB
 - Created SQLiteEntities.Books.cs
 - Created UI.BaseRepository.cs
 - Major revision on the connection mechanics, so big updates to Menu.cs, DatabaseManager.cs, BaseRepository.cs and SQLiteBookRepository.cs. The DatabaseManager constructor now has a lambda switch menu.
-- 
+- Created the ConnectionHandling() method to keep Menu.cs and MenuChoices cleaner
 
 ## Moving on

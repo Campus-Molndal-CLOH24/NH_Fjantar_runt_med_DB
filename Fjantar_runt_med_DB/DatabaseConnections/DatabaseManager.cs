@@ -19,9 +19,9 @@ namespace Fjantar_runt_med_DB.DatabaseConnections
     {
         private readonly string _connectionString;
 
-        public string ConnectionString => _connectionString; // Expose connection string as a property
+        internal string ConnectionString => _connectionString; // Expose connection string as a property
 
-        public DatabaseManager(DatabaseType dbType)
+        internal DatabaseManager(DatabaseType dbType)
         {
             // Set the connection string based on the selected database type
             _connectionString = dbType switch

@@ -21,9 +21,17 @@ namespace Fjantar_runt_med_DB.Repositories
 
         protected async Task<SQLiteConnection> GetOpenConnectionAsync()
         {
-            var connection = new SQLiteConnection(_connectionString);
-            await connection.OpenAsync();
-            return connection;
+            try
+            {
+                var connection = new SQLiteConnection(_connectionString);
+                await connection.OpenAsync();
+                return connection;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error opening connection: {ex.Message}");
+                throw; // Re-throw to let calling methods handle if needed
+            }
         }
     }
 }

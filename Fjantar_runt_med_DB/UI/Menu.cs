@@ -13,7 +13,7 @@ namespace Fjantar_runt_med_DB.UI
 
     internal class Menu
     {
-        internal static void MenuChoices()
+        internal static async Task MenuChoices()
         {
             DatabaseType dbType = default;
             bool validChoice = false;
@@ -61,8 +61,8 @@ namespace Fjantar_runt_med_DB.UI
                 }
             }
 
+            await ConnectionHandling(dbType);
             // Call ConnectionHandling with the chosen database type
-            ConnectionHandling(dbType).GetAwaiter().GetResult(); // Call async method synchronously
         }
 
         internal static async Task ShowCrudMenu(ICrudRepository<Books> repository)
@@ -113,7 +113,6 @@ namespace Fjantar_runt_med_DB.UI
                     case "5":
                         exitCRUDMenu = true; // Exit the loop to return to the main menu
                         Console.WriteLine("Returning to the main menu...");
-                        MenuChoices();
                         break;
                     default:
                         Console.WriteLine("Invalid choice, please try again.");
