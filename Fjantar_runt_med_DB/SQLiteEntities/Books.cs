@@ -8,8 +8,10 @@ namespace Fjantar_runt_med_DB.SQLiteEntities
 {
     internal class Books
     {
-        public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Author { get; set; } = string.Empty;
+        internal int Id { get; set; }
+        internal string Title { get; set; } = string.Empty;
+        internal string Author { get; set; } = string.Empty;
+        internal int Year { get; set; }
+        internal string ISBN { get; set; } = string.Empty;
     }
 }
