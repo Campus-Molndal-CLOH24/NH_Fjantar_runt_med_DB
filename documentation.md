@@ -77,3 +77,5 @@ Fjantar_runt_med_DB
 - Created the ConnectionHandling() method to keep Menu.cs and MenuChoices cleaner
 
 ## Moving on
+
+- Tempting to have a bit more EF-focus, not sure if it should be added in this project or the next
